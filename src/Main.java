@@ -43,6 +43,14 @@ public class Main {
         System.out.println("Эпики: " + manager.getAllEpics());
         System.out.println("Подзадачи: " + manager.getAllSubtasks());
 
+        System.out.println("\n=== История просмотров ===");
+        // Просматриваем некоторые задачи
+        manager.getTaskById(task1.getId());
+        manager.getEpicById(epic1.getId());
+        manager.getSubtaskById(subtask1.getId());
+
+        System.out.println("История: " + manager.getHistory());
+
         System.out.println("\n=== Удаление ===");
         manager.deleteTaskById(task1.getId());
         manager.deleteEpicById(epic1.getId());
