@@ -1,13 +1,11 @@
 package controllers;
+
 import model.Task;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class InMemoryHistoryManager implements HistoryManager {
-    private final Map<Integer, Task> history = new HashMap<>();
-    private final List<Integer> historyOrder = new ArrayList<>();
+    private final List<Task> history = new ArrayList<>();
     private static final int MAX_HISTORY_SIZE = 10;
 
     @Override
@@ -16,31 +14,25 @@ public class InMemoryHistoryManager implements HistoryManager {
             return;
         }
 
-        remove(task.getId());
+        // Удаляем старую версию если есть
+        history.removeIf(t -> t.getId() == task.getId());
 
-        history.put(task.getId(), task);
-        historyOrder.add(task.getId());
+        // Добавляем новую
+        history.add(task);
 
-        if (historyOrder.size() > MAX_HISTORY_SIZE) {
-            int oldestId = historyOrder.remove(0);
-            history.remove(oldestId);
+        // Ограничиваем размер
+        if (history.size() > MAX_HISTORY_SIZE) {
+            history.remove(0);
         }
     }
 
     @Override
     public List<Task> getHistory() {
-        List<Task> result = new ArrayList<>();
-        for (Integer id : historyOrder) {
-            result.add(history.get(id));
-        }
-        return result;
+        return new ArrayList<>(history);
     }
 
     @Override
     public void remove(int id) {
-        if (history.containsKey(id)) {
-            history.remove(id);
-            historyOrder.remove(Integer.valueOf(id));
-        }
+        history.removeIf(task -> task.getId() == id);
     }
 }

@@ -1,17 +1,17 @@
-package controllers;
-import model.*;
-import java.util.*;
+    package controllers;
+    import model.*;
+    import java.util.*;
 
-public class InMemoryTaskManager implements TaskManager {
-    private int nextId = 1;
-    private final Map<Integer, Task> tasks = new HashMap<>();
-    private final Map<Integer, Epic> epics = new HashMap<>();
-    private final Map<Integer, Subtask> subtasks = new HashMap<>();
-    private final HistoryManager historyManager = Managers.getDefaultHistory();
+    public class InMemoryTaskManager implements TaskManager {
+        private int nextId = 1;
+        private final Map<Integer, Task> tasks = new HashMap<>();
+        private final Map<Integer, Epic> epics = new HashMap<>();
+        private final Map<Integer, Subtask> subtasks = new HashMap<>();
+        private final HistoryManager historyManager = Managers.getDefaultHistory();
 
-    private int generateId() {
-        return nextId++;
-    }
+        private int generateId() {
+            return nextId++;
+        }
 
     @Override
     public List<Task> getAllTasks() {
